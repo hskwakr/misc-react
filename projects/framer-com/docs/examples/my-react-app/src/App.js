@@ -1,7 +1,12 @@
+import Sample1 from "./components/Sample1";
+
 function App() {
   return (
-    <div className="App">
-    </div>
+    <>
+      <div>
+        <Sample1/>
+      </div>
+    </>
   );
 }
 
