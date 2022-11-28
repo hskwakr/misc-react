@@ -7,10 +7,15 @@ export default function Options({ optionType }) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3030/${optionType}`)
-      .then((response) => setItems(response.data))
-      .catch((error) => {});
+    async function fetch() {
+      try {
+        const res = await axios.get(`http://localhost:3030/${optionType}`);
+        setItems(res.data);
+      } catch (error) {
+        // todo
+      }
+    }
+    fetch();
   }, [optionType]);
 
   const ItemComponent = optionType === "scoops" ? ScoopOption : null;
