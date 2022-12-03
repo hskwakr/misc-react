@@ -24,21 +24,33 @@ test("order phases for happy path", async () => {
   await user.click(cherriesCheckbox);
 
   // find and click order button
-  const orderButton = screen.getByRole("button", { name: /order sundoe/i });
-  await user.click(orderButton);
+  const orderSummaryButton = screen.getByRole("button", {
+    name: /order sundoe/i,
+  });
+  await user.click(orderSummaryButton);
 
   // check summary information based on order
-  const scoopsTotal = screen.getByRole("heading", { name: /scoops: \$/i });
-  expect(scoopsTotal).toHaveTextContent("2.00");
 
-  const toppingsTotal = screen.getByRole("heading", { name: /toppings: \$/i });
-  expect(toppingsTotal).toHaveTextContent("1.50");
+  // check summary subtotals
+  const scoopsSummaryTotal = screen.getByRole("heading", {
+    name: /scoops: \$/i,
+  });
+  expect(scoopsSummaryTotal).toHaveTextContent("2.00");
+
+  const toppingsSummaryTotal = screen.getByRole("heading", {
+    name: /toppings: \$/i,
+  });
+  expect(toppingsSummaryTotal).toHaveTextContent("1.50");
+
+  // check summary option items
+  expect(screen.getByText("1 Vanilla")).toBeInTheDocument();
+  expect(screen.getByText("Cherries")).toBeInTheDocument();
 
   // accept terms and conditions and click button to confirm order
-  const termsAndConditions = screen.getByRole("checkbox", {
+  const tcCheckbox = screen.getByRole("checkbox", {
     name: /terms and conditions/i,
   });
-  await user.click(termsAndConditions);
+  await user.click(tcCheckbox);
 
   const confirmOrderButton = screen.getByRole("button", {
     name: /confirm order/i,
@@ -69,5 +81,8 @@ test("order phases for happy path", async () => {
   });
   expect(toppingSubtotal).toHaveTextContent("0.00");
 
-  // do we need to awai anything to avoid test errors?
+  // wait for items to appear so that Testing Library doesn't get angry about stuff
+  // happening after test is over
+  await screen.findByRole("spinbutton", { name: "Vanilla" });
+  await screen.findByRole("checkbox", { name: "Cherries" });
 });
