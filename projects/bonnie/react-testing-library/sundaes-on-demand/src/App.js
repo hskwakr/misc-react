@@ -8,20 +8,19 @@ import OrderSummary from "./pages/summary/OrderSummary";
 function App() {
   const [orderPhase, setOrderPhase] = useState("inProgress");
 
-  let page = null;
+  let Component = OrderEntry;
   switch (orderPhase) {
     case "inProgress":
-      page = <OrderEntry setOrderPhase={setOrderPhase} />;
+      Component = OrderEntry;
       break;
     case "review":
-      page = <OrderSummary setOrderPhase={setOrderPhase} />;
+      Component = OrderSummary;
       break;
     case "complete":
-      page = <OrderConfirmation setOrderPhase={setOrderPhase} />;
+      Component = OrderConfirmation;
       break;
 
     default:
-      page = null;
   }
 
   return (
@@ -29,7 +28,7 @@ function App() {
       <OrderDetailsProvider>
         {/** Summary page and entry page need provider */}
         {/** confirmation page does not need provider */}
-        {page}
+        <Component setOrderPhase={setOrderPhase} />
       </OrderDetailsProvider>
     </Container>
   );

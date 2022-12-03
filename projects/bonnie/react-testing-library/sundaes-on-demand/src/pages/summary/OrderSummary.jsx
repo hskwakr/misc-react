@@ -30,7 +30,7 @@ export default function OrderSummary({ setOrderPhase }) {
       <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
       <ul>{toppingsList}</ul>
 
-      <SummaryForm onClick={handleClick} />
+      <SummaryForm onSubmit={handleClick} />
     </div>
   );
 }

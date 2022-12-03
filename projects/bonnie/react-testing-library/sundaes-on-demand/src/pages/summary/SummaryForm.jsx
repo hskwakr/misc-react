@@ -3,12 +3,12 @@ import { Button, Form, FormGroup } from "react-bootstrap";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 
-export default function SummaryForm({ onClick }) {
+export default function SummaryForm({ onSubmit }) {
   const [tcChecked, setTcChecked] = useState(false);
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onClick();
+    onSubmit();
   };
 
   const popover = (
@@ -27,7 +27,7 @@ export default function SummaryForm({ onClick }) {
   );
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <FormGroup controlId="terms-and-conditions">
         <Form.Check
           type="checkbox"
@@ -39,12 +39,7 @@ export default function SummaryForm({ onClick }) {
         />
       </FormGroup>
 
-      <Button
-        variant="primary"
-        type="submit"
-        disabled={!tcChecked}
-        onClick={handleClick}
-      >
+      <Button variant="primary" type="submit" disabled={!tcChecked}>
         confirm order
       </Button>
     </Form>

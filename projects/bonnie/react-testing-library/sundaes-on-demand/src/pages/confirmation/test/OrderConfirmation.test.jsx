@@ -8,10 +8,6 @@ import OrderConfirmation from "../OrderConfirmation";
 test("displays order number", async () => {
   render(<OrderConfirmation />);
 
-  const orderNumber = screen.getByText("Your order number is ", {
-    exact: false,
-  });
-  await waitFor(() => {
-    expect(orderNumber).toHaveTextContent("3402589230");
-  });
+  const orderNumber = await screen.findByText(/order number/i);
+  expect(orderNumber).toHaveTextContent("3402589230");
 });

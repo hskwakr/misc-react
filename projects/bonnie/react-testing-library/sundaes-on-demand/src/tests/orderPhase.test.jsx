@@ -58,12 +58,8 @@ test("order phases for happy path", async () => {
   await user.click(confirmOrderButton);
 
   // confirm order number on confirmation page
-  const orderNumber = screen.getByText("Your order number is ", {
-    exact: false,
-  });
-  await waitFor(() => {
-    expect(orderNumber).toHaveTextContent("3402589230");
-  });
+  const orderNumber = await screen.findByText(/order number/i);
+  expect(orderNumber).toHaveTextContent("3402589230");
 
   // click "new order" button on confirmation page
   const newOrderButton = screen.getByRole("button", {

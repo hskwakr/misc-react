@@ -13,14 +13,12 @@ export default function OrderEntry({ setOrderPhase }) {
 
   return (
     <div>
+      <h1>Design Your Sundae!</h1>
       <Options optionType="scoops" />
       <Options optionType="toppings" />
 
       <h2>Grand total: {formatCurrency(grandTotal)}</h2>
-
-      <Button variant="primary" onClick={handleClick}>
-        Order Sundoe
-      </Button>
+      <Button onClick={handleClick}>Order Sundoe!</Button>
     </div>
   );
 }
