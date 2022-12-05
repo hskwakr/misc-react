@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import App from "../App";
@@ -56,6 +56,17 @@ test("order phases for happy path", async () => {
     name: /confirm order/i,
   });
   await user.click(confirmOrderButton);
+
+  // check "Loading" appears
+  const loading = screen.getByText(/loading/i, { exact: false });
+  expect(loading).toBeInTheDocument();
+
+  const thankYouHeading = await screen.findByRole("heading", /thank you/i);
+  expect(thankYouHeading).toBeInTheDocument();
+
+  // check "Loading" disappears
+  const notloading = screen.queryByText(/loading/i, { exact: false });
+  expect(notloading).not.toBeInTheDocument();
 
   // confirm order number on confirmation page
   const orderNumber = await screen.findByText(/order number/i);
