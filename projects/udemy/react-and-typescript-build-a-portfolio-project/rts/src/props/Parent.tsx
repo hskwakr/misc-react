@@ -1,10 +1,5 @@
-import { Child, ChildAsFC } from './Child';
+import Child from './Child';
 
-const Parent = () => (
-  <>
-    <Child color="red" />
-    <ChildAsFC color="blue" />
-  </>
-);
+const Parent = () => <Child color="red" />;
 
 export default Parent;
