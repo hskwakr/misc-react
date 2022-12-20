@@ -4,4 +4,6 @@ interface ChildProps {
 
 export const Child = ({ color }: ChildProps) => <div>{color}</div>;
 
-export default Child;
+export const ChildAsFC: React.FC<ChildProps> = ({ color }: ChildProps) => (
+  <div>{color}</div>
+);
