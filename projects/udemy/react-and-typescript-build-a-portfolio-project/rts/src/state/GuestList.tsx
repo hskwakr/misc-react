@@ -19,7 +19,7 @@ const GuestList = () => {
 
       <ul>
         {guests.map((guest) => (
-          <li>{guest}</li>
+          <li key={guest}>{guest}</li>
         ))}
       </ul>
 
