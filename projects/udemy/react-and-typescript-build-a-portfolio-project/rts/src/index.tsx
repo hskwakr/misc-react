@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 // import GuestList from './state/GuestList';
-import UserSearch from './state/UserSearch';
+// import UserSearch from './state/UserSearch';
+import EventComponent from './events/EventComponent';
 
 const el = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -9,7 +10,8 @@ const root = ReactDOM.createRoot(el!);
 const App = () => (
   <div>
     {/* <GuestList /> */}
-    <UserSearch />
+    {/* <UserSearch /> */}
+    <EventComponent />
   </div>
 );
 
