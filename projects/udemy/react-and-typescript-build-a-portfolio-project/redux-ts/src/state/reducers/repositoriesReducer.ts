@@ -4,21 +4,21 @@ interface RepositoriesState {
   error: string | null;
 }
 
-const ActionType = {
-  SEARCH: 'search_repositories',
-  SEARCH_SUCCESS: 'search_repositories_success',
-  SEARCH_ERROR: 'search_repositories_error',
-} as const;
+const enum ActionType {
+  SEARCH = 'search_repositories',
+  SEARCH_SUCCESS = 'search_repositories_success',
+  SEARCH_ERROR = 'search_repositories_error',
+}
 
 interface SearchRepositoriesAction {
-  type: typeof ActionType.SEARCH;
+  type: ActionType.SEARCH;
 }
 interface SearchRepositoriesSuccessAction {
-  type: typeof ActionType.SEARCH_SUCCESS;
+  type: ActionType.SEARCH_SUCCESS;
   payload: RepositoriesState['data'];
 }
 interface SearchRepositoriesErrorAction {
-  type: typeof ActionType.SEARCH_ERROR;
+  type: ActionType.SEARCH_ERROR;
   payload: string;
 }
 
