@@ -13,12 +13,17 @@ const RepositoriesList = () => {
     e.preventDefault();
 
     searchRepositories(term);
-    console.log(data, error, loading);
+    // console.log(data, error, loading);
   };
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setTerm(e.target.value);
   };
+
+  const errorContent = error !== null && <h3>{error}</h3>;
+  const loadingContent = loading && <h3>Loading...</h3>;
+  const dataContent =
+    error === null && !loading && data.map((name) => <div>{name}</div>);
 
   return (
     <div>
@@ -26,6 +31,9 @@ const RepositoriesList = () => {
         <input type="text" onChange={onChange} />
         <button type="submit">Search</button>
       </form>
+      {errorContent}
+      {loadingContent}
+      {dataContent}
     </div>
   );
 };
