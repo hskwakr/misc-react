@@ -11,7 +11,7 @@ interface Response {
 
 const url = 'https://registry.npmjs.org/-/v1/search';
 
-const searchRepositories =
+export const searchRepositories =
   (term: string) => async (dispatch: Dispatch<Action>) => {
     dispatch({ type: ActionType.SEARCH });
 
@@ -37,5 +37,3 @@ const searchRepositories =
       }
     }
   };
-
-export default searchRepositories;
