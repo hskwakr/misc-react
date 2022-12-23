@@ -6,7 +6,7 @@ const App = () => (
   <Provider store={store}>
     <div>
       <h1>Search For a Package</h1>
-      
+
       <RepositoriesList />
     </div>
   </Provider>
