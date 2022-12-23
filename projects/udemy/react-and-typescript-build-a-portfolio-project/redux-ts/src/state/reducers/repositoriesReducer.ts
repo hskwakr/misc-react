@@ -21,4 +21,5 @@ const reducer = (
   }
 };
 
-export default reducer;
+const repositoriesReducer = reducer;
+export default repositoriesReducer;

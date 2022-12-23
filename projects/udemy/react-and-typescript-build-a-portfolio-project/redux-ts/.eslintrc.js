@@ -33,6 +33,7 @@ module.exports = {
     ],
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react/react-in-jsx-scope': 'off',
+    'import/prefer-default-export': 'off',
   },
   settings: {
     react: {
