@@ -8,6 +8,9 @@
     "standard-with-typescript",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
     "prettier"
   ],
   "overrides": [],
