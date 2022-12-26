@@ -17,19 +17,29 @@ const App = () => {
     void startService();
   }, []);
 
-  const onClick = () => {
+  const onClick = async () => {
     if (serverRef.current === null) {
       return;
     }
 
-    setCode(input);
+    const result = await serverRef.current.transform(input, {
+      loader: 'jsx',
+      target: 'es2015',
+    });
+
+    setCode(result.code);
   };
 
   return (
     <div>
       <textarea value={input} onChange={(e) => setInput(e.target.value)} />
       <div>
-        <button type="button" onClick={onClick}>
+        <button
+          type="button"
+          onClick={() => {
+            void onClick();
+          }}
+        >
           Submit
         </button>
       </div>
@@ -38,4 +48,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;
