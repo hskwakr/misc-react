@@ -16,7 +16,7 @@ export const unpkgPathPlugin = () => ({
 
       if (args.path.includes('./') || args.path.includes('../')) {
         return {
-          path: new URL(args.path, `http://unpkg.com/${args.resolveDir}/`).href,
+          path: new URL(args.path, `http://unpkg.com${args.resolveDir}/`).href,
           namespace: 'a',
         };
       }
