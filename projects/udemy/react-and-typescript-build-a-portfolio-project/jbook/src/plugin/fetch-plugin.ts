@@ -6,6 +6,16 @@ const fileCache = localforage.createInstance({
   name: 'filecache',
 });
 
+const fetch = async (url: string) => {
+  const res = await axios.get<string>(url);
+  if (res.request === null || !(res.request instanceof XMLHttpRequest)) {
+    throw new Error('Unexpected responce.request');
+  }
+  
+  const { data, request } = res;
+  return { data, request };
+};
+
 export const fetchPlugin = (inputCode: string) => ({
   name: 'fetch-plugin',
   setup(build: esbuild.PluginBuild) {
@@ -13,20 +23,19 @@ export const fetchPlugin = (inputCode: string) => ({
       loader: 'jsx',
       contents: inputCode,
     }));
-    
-    build.onLoad({ filter: /\.css$/ }, async (args: esbuild.OnLoadArgs) => {
+
+    // eslint-disable-next-line consistent-return
+    build.onLoad({ filter: /.*/ }, async (args: esbuild.OnLoadArgs) => {
       const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
         args.path
       );
       if (cachedResult != null) {
         return cachedResult;
       }
+    });
 
-      const res = await axios.get<string>(args.path);
-      const { data } = res;
-      if (res.request === null || !(res.request instanceof XMLHttpRequest)) {
-        throw new Error('Unexpected responce.request');
-      }
+    build.onLoad({ filter: /\.css$/ }, async (args: esbuild.OnLoadArgs) => {
+      const { data, request } = await fetch(args.path);
 
       const escaped = data
         .replace(/\n/g, '')
@@ -42,7 +51,7 @@ export const fetchPlugin = (inputCode: string) => ({
       const result: esbuild.OnLoadResult = {
         loader: 'jsx',
         contents,
-        resolveDir: new URL('./', res.request.responseURL).pathname,
+        resolveDir: new URL('./', request.responseURL).pathname,
       };
 
       await fileCache.setItem(args.path, result);
@@ -51,23 +60,12 @@ export const fetchPlugin = (inputCode: string) => ({
     });
 
     build.onLoad({ filter: /.*/ }, async (args: esbuild.OnLoadArgs) => {
-      const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
-        args.path
-      );
-      if (cachedResult != null) {
-        return cachedResult;
-      }
-
-      const res = await axios.get<string>(args.path);
-      const { data } = res;
-      if (res.request === null || !(res.request instanceof XMLHttpRequest)) {
-        throw new Error('Unexpected responce.request');
-      }
+      const { data, request } = await fetch(args.path);
 
       const result: esbuild.OnLoadResult = {
         loader: 'jsx',
         contents: data,
-        resolveDir: new URL('./', res.request.responseURL).pathname,
+        resolveDir: new URL('./', request.responseURL).pathname,
       };
 
       await fileCache.setItem(args.path, result);
