@@ -24,15 +24,24 @@ export const fetchPlugin = (inputCode: string) => ({
       //   return cachedResult;
       // }
 
-      const { data, request } = await axios.get(args.path);
+      const res = await axios.get<string>(args.path);
+      const { data } = res;
+      if (res.request === null || !(res.request instanceof XMLHttpRequest)) {
+        throw new Error('Unexpected responce.request');
+      }
 
       const fileType = args.path.match(/\.css$/) != null ? 'css' : 'jsx';
+
+      const escaped = data
+        .replace(/\n/g, '')
+        .replace(/"/g, '\\"')
+        .replace(/'/g, "\\'");
 
       const contents =
         fileType === 'css'
           ? `
           conststyle = document.createElement('style');
-          style.innerText = 'body { background-color: "red" }';
+          style.innerText = '${escaped}';
           document.head.appendChild(style);
           `
           : data;
@@ -40,7 +49,7 @@ export const fetchPlugin = (inputCode: string) => ({
       const result: esbuild.OnLoadResult = {
         loader: 'jsx',
         contents,
-        resolveDir: new URL('./', request.responseURL).pathname,
+        resolveDir: new URL('./', res.request.responseURL).pathname,
       };
 
       await fileCache.setItem(args.path, result);
