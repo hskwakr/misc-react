@@ -36,6 +36,22 @@ const App = () => {
     });
 
     setCode(result.outputFiles[0].text);
+
+    try {
+      // eslint-disable-next-line no-eval
+      eval(result.outputFiles[0].text);
+    } catch (error) {
+      let message = '';
+
+      if (typeof error === 'string') {
+        message = error;
+      }
+      if (error instanceof Error) {
+        message = error.message;
+      }
+
+      alert(message);
+    }
   };
 
   return (
