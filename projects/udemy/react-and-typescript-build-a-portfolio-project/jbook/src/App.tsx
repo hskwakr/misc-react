@@ -36,23 +36,13 @@ const App = () => {
     });
 
     setCode(result.outputFiles[0].text);
-
-    try {
-      // eslint-disable-next-line no-eval
-      eval(result.outputFiles[0].text);
-    } catch (error) {
-      let message = '';
-
-      if (typeof error === 'string') {
-        message = error;
-      }
-      if (error instanceof Error) {
-        message = error.message;
-      }
-
-      alert(message);
-    }
   };
+
+  const html = `
+  <script>
+    ${code}
+  </script>
+  `;
 
   return (
     <div>
@@ -69,7 +59,7 @@ const App = () => {
       </div>
 
       <pre>{code}</pre>
-      <iframe src="/test.html" title='code' sandbox='allow-same-origin' />
+      <iframe sandbox="allow-scripts" srcDoc={html} title="code-preview" />
     </div>
   );
 };
