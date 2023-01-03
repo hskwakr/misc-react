@@ -5,8 +5,9 @@ import { fetchPlugin } from './plugin/fetch-plugin';
 
 const App = () => {
   const serverRef = useRef<esbuild.Service | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [input, setInput] = useState('');
-  const [code, setCode] = useState('');
+  // const [code, setCode] = useState('');
 
   const startService = async () => {
     serverRef.current = await esbuild.startService({
@@ -23,6 +24,9 @@ const App = () => {
     if (serverRef.current === null) {
       return;
     }
+    if (iframeRef.current === null) {
+      return;
+    }
 
     const result = await serverRef.current.build({
       entryPoints: ['index.js'],
@@ -35,13 +39,26 @@ const App = () => {
       },
     });
 
-    setCode(result.outputFiles[0].text);
+    // setCode(result.outputFiles[0].text);
+
+    iframeRef.current.contentWindow?.postMessage(
+      result.outputFiles[0].text,
+      '*'
+    );
   };
 
   const html = `
-  <script>
-    ${code}
-  </script>
+  <html>
+    <head></head>
+    <body>
+      <div id="root"></div>
+      <script>
+        window.addEventListener('message', (event) => {
+          eval(event.data)
+        }, false)
+      </script>
+    </body>
+  </html>
   `;
 
   return (
@@ -58,8 +75,13 @@ const App = () => {
         </button>
       </div>
 
-      <pre>{code}</pre>
-      <iframe sandbox="allow-scripts" srcDoc={html} title="code-preview" />
+      {/* <pre>{code}</pre> */}
+      <iframe
+        ref={iframeRef}
+        sandbox="allow-scripts"
+        srcDoc={html}
+        title="code-preview"
+      />
     </div>
   );
 };
