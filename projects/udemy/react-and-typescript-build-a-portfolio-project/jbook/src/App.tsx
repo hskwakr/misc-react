@@ -27,7 +27,6 @@ const App = () => {
   const serverRef = useRef<esbuild.Service | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [input, setInput] = useState('');
-  // const [code, setCode] = useState('');
 
   const startService = async () => {
     serverRef.current = await esbuild.startService({
@@ -61,8 +60,6 @@ const App = () => {
       },
     });
 
-    // setCode(result.outputFiles[0].text);
-
     iframeRef.current.contentWindow?.postMessage(
       result.outputFiles[0].text,
       '*'
@@ -83,12 +80,11 @@ const App = () => {
         </button>
       </div>
 
-      {/* <pre>{code}</pre> */}
       <iframe
         ref={iframeRef}
         sandbox="allow-scripts"
         srcDoc={html}
-        title="code-preview"
+        title="preview"
       />
     </div>
   );
