@@ -3,6 +3,26 @@ import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugin/unpkg-path-plugin';
 import { fetchPlugin } from './plugin/fetch-plugin';
 
+const html = `
+<html>
+  <head></head>
+  <body>
+    <div id="root"></div>
+    <script>
+      window.addEventListener('message', (event) => {
+        try {
+          eval(event.data) 
+        } catch (error) {
+          const root = document.querySelector('#root')
+          root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + error + '</div>'
+          console.error(error)
+        }
+      }, false)
+    </script>
+  </body>
+</html>
+`;
+
 const App = () => {
   const serverRef = useRef<esbuild.Service | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -28,6 +48,8 @@ const App = () => {
       return;
     }
 
+    iframeRef.current.srcdoc = html;
+
     const result = await serverRef.current.build({
       entryPoints: ['index.js'],
       bundle: true,
@@ -46,26 +68,6 @@ const App = () => {
       '*'
     );
   };
-
-  const html = `
-  <html>
-    <head></head>
-    <body>
-      <div id="root"></div>
-      <script>
-        window.addEventListener('message', (event) => {
-          try {
-            eval(event.data) 
-          } catch (error) {
-            const root = document.querySelector('#root')
-            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + error + '</div>'
-            console.error(error)
-          }
-        }, false)
-      </script>
-    </body>
-  </html>
-  `;
 
   return (
     <div>
