@@ -24,6 +24,17 @@ const html = `
 </html>
 `;
 
+const initialValue = `
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const App = () => {
+  return <h1>Hi there!</h1>;
+};
+
+ReactDOM.render(<App />, document.querySelector('#root'));
+`
+
 const App = () => {
   const serverRef = useRef<esbuild.Service | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -70,7 +81,7 @@ const App = () => {
   return (
     <div>
       <CodeEditor
-        initialValue="const a = 1"
+        initialValue={initialValue}
         onChange={(value) => setInput(value)}
       />
       <textarea value={input} onChange={(e) => setInput(e.target.value)} />
