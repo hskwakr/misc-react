@@ -48,7 +48,11 @@ const CodeEditor = ({ initialValue, onChange }: CodeEditorProps) => {
 
   return (
     <>
-      <button type="button" onClick={onFormatClick}>
+      <button
+        type="button"
+        className="button button-format is-primary is-small"
+        onClick={onFormatClick}
+      >
         Format
       </button>
 
