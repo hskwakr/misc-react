@@ -1,3 +1,4 @@
+import './code-editor.css';
 import Editor, { OnMount } from '@monaco-editor/react';
 import prettier from 'prettier';
 import parser from 'prettier/parser-babel';
@@ -11,13 +12,15 @@ interface CodeEditorProps {
 type OnMountParams = Parameters<OnMount>;
 
 const format = (code: string) =>
-  prettier.format(code, {
-    parser: 'babel',
-    plugins: [parser],
-    useTabs: false,
-    semi: true,
-    singleQuote: true,
-  });
+  prettier
+    .format(code, {
+      parser: 'babel',
+      plugins: [parser],
+      useTabs: false,
+      semi: true,
+      singleQuote: true,
+    })
+    .replace(/\n$/, '');
 
 const CodeEditor = ({ initialValue, onChange }: CodeEditorProps) => {
   const editorRef = useRef<OnMountParams[0] | null>(null);
@@ -47,7 +50,7 @@ const CodeEditor = ({ initialValue, onChange }: CodeEditorProps) => {
   const fmtInitValue = format(initialValue);
 
   return (
-    <>
+    <div className="editor-wrapper">
       <button
         type="button"
         className="button button-format is-primary is-small"
@@ -74,7 +77,7 @@ const CodeEditor = ({ initialValue, onChange }: CodeEditorProps) => {
           automaticLayout: true,
         }}
       />
-    </>
+    </div>
   );
 };
 
