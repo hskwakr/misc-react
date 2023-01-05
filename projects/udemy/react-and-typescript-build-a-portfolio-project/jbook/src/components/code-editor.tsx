@@ -27,6 +27,7 @@ const CodeEditor = ({ initialValue, onChange }: CodeEditorProps) => {
 
   const onEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
+    onChange(editor.getValue());
 
     editor.onDidChangeModelContent(() => {
       onChange(editor.getValue());
