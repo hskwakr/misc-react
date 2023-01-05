@@ -11,7 +11,7 @@ const fetch = async (url: string) => {
   if (res.request === null || !(res.request instanceof XMLHttpRequest)) {
     throw new Error('Unexpected responce.request');
   }
-  
+
   const { data, request } = res;
   return { data, request };
 };

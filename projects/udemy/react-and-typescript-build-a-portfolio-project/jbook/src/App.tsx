@@ -33,7 +33,7 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.querySelector('#root'));
-`
+`;
 
 const App = () => {
   const serverRef = useRef<esbuild.Service | null>(null);
