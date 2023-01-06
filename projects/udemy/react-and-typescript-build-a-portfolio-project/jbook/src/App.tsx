@@ -3,26 +3,7 @@ import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugin/unpkg-path-plugin';
 import { fetchPlugin } from './plugin/fetch-plugin';
 import CodeEditor from './components/code-editor';
-
-const html = `
-<html>
-  <head></head>
-  <body>
-    <div id="root"></div>
-    <script>
-      window.addEventListener('message', (event) => {
-        try {
-          eval(event.data) 
-        } catch (error) {
-          const root = document.querySelector('#root')
-          root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + error + '</div>'
-          console.error(error)
-        }
-      }, false)
-    </script>
-  </body>
-</html>
-`;
+import Preview from './components/preview';
 
 const initialValue = `
 import React from 'react';
@@ -37,8 +18,8 @@ ReactDOM.render(<App />, document.querySelector('#root'));
 
 const App = () => {
   const serverRef = useRef<esbuild.Service | null>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [input, setInput] = useState('');
+  const [code, setCode] = useState('');
 
   const startService = async () => {
     serverRef.current = await esbuild.startService({
@@ -55,11 +36,6 @@ const App = () => {
     if (serverRef.current === null) {
       return;
     }
-    if (iframeRef.current === null) {
-      return;
-    }
-
-    iframeRef.current.srcdoc = html;
 
     const result = await serverRef.current.build({
       entryPoints: ['index.js'],
@@ -72,10 +48,7 @@ const App = () => {
       },
     });
 
-    iframeRef.current.contentWindow?.postMessage(
-      result.outputFiles[0].text,
-      '*'
-    );
+    setCode(result.outputFiles[0].text);
   };
 
   return (
@@ -95,13 +68,7 @@ const App = () => {
           Submit
         </button>
       </div>
-
-      <iframe
-        ref={iframeRef}
-        sandbox="allow-scripts"
-        srcDoc={html}
-        title="preview"
-      />
+      <Preview code={code} />
     </div>
   );
 };
