@@ -61,7 +61,7 @@ const CodeEditor = ({ initialValue, onChange }: CodeEditorProps) => {
       </button>
 
       <Editor
-        height="500px"
+        height="100%"
         theme="vs-dark"
         defaultLanguage="javascript"
         defaultValue={fmtInitValue}

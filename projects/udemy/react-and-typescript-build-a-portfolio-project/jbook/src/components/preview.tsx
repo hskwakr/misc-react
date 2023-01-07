@@ -42,6 +42,7 @@ const Preview = ({ code }: PreviewProps) => {
       sandbox="allow-scripts"
       srcDoc={html}
       title="preview"
+      style={{ backgroundColor: 'white' }}
     />
   );
 };
