@@ -12,7 +12,13 @@ const Resizable = ({
   console.log(direction);
 
   return (
-    <ResizableBox height={300} width={Infinity} resizeHandles={['s']}>
+    <ResizableBox
+      height={300}
+      width={Infinity}
+      resizeHandles={['s']}
+      minConstraints={[Infinity, 24]}
+      maxConstraints={[Infinity, window.innerHeight * 0.9]}
+    >
       {children}
     </ResizableBox>
   );
