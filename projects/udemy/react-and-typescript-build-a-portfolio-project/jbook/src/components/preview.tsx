@@ -31,7 +31,7 @@ const Preview = ({ code }: PreviewProps) => {
     if (iframeRef.current === null) {
       return;
     }
-    
+
     iframeRef.current.srcdoc = html;
     iframeRef.current.contentWindow?.postMessage(code, '*');
   }, [code]);
