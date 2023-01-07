@@ -13,6 +13,7 @@ const Resizable = ({
 
   if (direction === 'horizontal') {
     resizableProps = {
+      className: 'resize-horizontal',
       resizeHandles: ['e'],
       height: Infinity,
       width: window.innerWidth * 0.75,
@@ -29,11 +30,18 @@ const Resizable = ({
     };
   }
 
-  const { height, width, resizeHandles, minConstraints, maxConstraints } =
-    resizableProps;
+  const {
+    height,
+    width,
+    resizeHandles,
+    minConstraints,
+    maxConstraints,
+    className,
+  } = resizableProps;
 
   return (
     <ResizableBox
+      className={className}
       height={height}
       width={width}
       resizeHandles={resizeHandles}
