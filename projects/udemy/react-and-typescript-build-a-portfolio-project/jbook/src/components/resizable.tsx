@@ -13,27 +13,35 @@ const Resizable = ({
   let resizableProps: ResizableBoxProps;
   const [innerHeight, setInnerHeight] = useState(window.innerHeight);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(innerWidth * 0.75);
 
   useEffect(() => {
     const listener = () => {
       setInnerHeight(window.innerHeight);
       setInnerWidth(window.innerWidth);
+
+      if (window.innerWidth * 0.75 < width) {
+        setWidth(window.innerWidth * 0.75);
+      }
     };
     window.addEventListener('resize', listener);
 
     return () => {
       window.removeEventListener('resize', listener);
     };
-  }, []);
+  }, [width]);
 
   if (direction === 'horizontal') {
     resizableProps = {
       className: 'resize-horizontal',
       resizeHandles: ['e'],
       height: Infinity,
-      width: innerWidth * 0.75,
+      width,
       minConstraints: [innerWidth * 0.2, Infinity],
       maxConstraints: [innerWidth * 0.75, Infinity],
+      onResizeStop: (e, data) => {
+        setWidth(data.size.width);
+      },
     };
   } else {
     resizableProps = {
@@ -45,27 +53,8 @@ const Resizable = ({
     };
   }
 
-  const {
-    height,
-    width,
-    resizeHandles,
-    minConstraints,
-    maxConstraints,
-    className,
-  } = resizableProps;
-
-  return (
-    <ResizableBox
-      className={className}
-      height={height}
-      width={width}
-      resizeHandles={resizeHandles}
-      minConstraints={minConstraints}
-      maxConstraints={maxConstraints}
-    >
-      {children}
-    </ResizableBox>
-  );
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <ResizableBox {...resizableProps}>{children}</ResizableBox>;
 };
 
 export default Resizable;
