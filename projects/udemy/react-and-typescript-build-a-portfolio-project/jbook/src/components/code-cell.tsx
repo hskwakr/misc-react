@@ -34,8 +34,6 @@ const CodeCell = () => {
     };
   }, [input]);
 
-  const onClick = async () => {};
-
   return (
     <Resizable direction="vertical">
       <div style={{ height: '100%', display: 'flex', flexDirection: 'row' }}>
@@ -45,16 +43,6 @@ const CodeCell = () => {
             onChange={(value) => setInput(value)}
           />
         </Resizable>
-        <div>
-          <button
-            type="button"
-            onClick={() => {
-              void onClick();
-            }}
-          >
-            Submit
-          </button>
-        </div>
         <Preview code={code} />
       </div>
     </Resizable>
