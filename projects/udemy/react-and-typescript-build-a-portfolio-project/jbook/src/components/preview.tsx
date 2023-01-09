@@ -34,9 +34,10 @@ const html = `
 
 interface PreviewProps {
   code: string;
+  bundlingStatus: string;
 }
 
-const Preview = ({ code }: PreviewProps) => {
+const Preview = ({ code, bundlingStatus }: PreviewProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -59,6 +60,12 @@ const Preview = ({ code }: PreviewProps) => {
         srcDoc={html}
         title="preview"
       />
+      {bundlingStatus.length > 0 && (
+        <div className="preview-error">
+          <h4>Compilation Error</h4>
+          <p>{bundlingStatus}</p>
+        </div>
+      )}
     </div>
   );
 };

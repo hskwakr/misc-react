@@ -18,11 +18,13 @@ ReactDOM.render(<App />, document.querySelector('#root'));
 const CodeCell = () => {
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const execute = async () => {
       const output = await bundle(input);
-      setCode(output);
+      setCode(output.code);
+      setError(output.err);
     };
 
     const timer = setTimeout(() => {
@@ -43,7 +45,7 @@ const CodeCell = () => {
             onChange={(value) => setInput(value)}
           />
         </Resizable>
-        <Preview code={code} />
+        <Preview code={code} bundlingStatus={error} />
       </div>
     </Resizable>
   );
