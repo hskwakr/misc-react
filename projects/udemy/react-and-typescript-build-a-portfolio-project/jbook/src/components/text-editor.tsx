@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import MDEditor from '@uiw/react-md-editor';
 import { useEffect, useRef, useState } from 'react';
+import './text-editor.css';
 
 const TextEditor = () => {
   const [editing, setEditing] = useState(false);
