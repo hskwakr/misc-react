@@ -29,11 +29,11 @@ const TextEditor = () => {
   }, []);
 
   return editing ? (
-    <div ref={divRef}>
+    <div className="text-editor" ref={divRef}>
       <MDEditor value={value} onChange={(v) => setValue(v ?? '')} />
     </div>
   ) : (
-    <div onClick={() => setEditing(true)}>
+    <div className="text-editor" onClick={() => setEditing(true)}>
       <MDEditor.Markdown source="# Header" />
     </div>
   );
