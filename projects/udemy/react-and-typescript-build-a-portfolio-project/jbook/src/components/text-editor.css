@@ -19,7 +19,7 @@
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
 }
 
-.w-md-editor .title {
+.text-editor .w-md-editor .title {
   color: #d4d4d4 !important;
 }
 
@@ -49,12 +49,14 @@
   color: #d4d4d4;
 }
 
-.text-editor .w-md-editor-content {
+.text-editor .w-md-editor-content,
+.text-editor .wmde-markdown {
   background-color: #202123;
 }
 
 .text-editor .w-md-editor,
-.text-editor .w-md-editor .w-md-editor-text-pre {
+.text-editor .w-md-editor .w-md-editor-text-pre,
+.text-editor .wmde-markdown {
   color: #d4d4d4;
 }
 
