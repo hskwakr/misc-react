@@ -6,7 +6,7 @@ import './text-editor.css';
 
 const TextEditor = () => {
   const [editing, setEditing] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('# Header');
   const divRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const TextEditor = () => {
     </div>
   ) : (
     <div className="text-editor" onClick={() => setEditing(true)}>
-      <MDEditor.Markdown source="# Header" />
+      <MDEditor.Markdown source={value} />
     </div>
   );
 };
