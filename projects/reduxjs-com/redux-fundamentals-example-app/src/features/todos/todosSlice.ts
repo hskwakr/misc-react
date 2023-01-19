@@ -8,11 +8,7 @@ interface TodoState {
   color?: Color;
 }
 
-const initialState: TodoState[] = [
-  { id: 0, text: 'Learn React', completed: true },
-  { id: 1, text: 'Learn Redux', completed: false, color: 'purple' },
-  { id: 2, text: 'Build something fun!', completed: false, color: 'blue' },
-];
+const initialState: TodoState[] = [];
 
 function nextTodoId(todos: TodoState[]) {
   const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1);
