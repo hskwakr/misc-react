@@ -1,13 +1,21 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { Color } from '../Color';
 
+export const StatusFilters = {
+  All: 'all',
+  Active: 'active',
+  Completed: 'completed',
+} as const;
+
+export type Status = typeof StatusFilters[keyof typeof StatusFilters];
+
 interface FilterState {
-  status: 'All' | 'Active' | 'Completed';
+  status: Status;
   colors: Color[];
 }
 
 const initialState: FilterState = {
-  status: 'All',
+  status: StatusFilters.All,
   colors: [],
 };
 

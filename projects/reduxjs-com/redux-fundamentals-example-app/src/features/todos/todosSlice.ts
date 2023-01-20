@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { Color } from '../Color';
 
-interface TodoState {
+export interface TodoState {
   id: number;
   text: string;
   completed: boolean;
