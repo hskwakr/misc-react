@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { Color } from '../Color';
+import { Color } from '../../../color';
 
 export const StatusFilters = {
   All: 'all',

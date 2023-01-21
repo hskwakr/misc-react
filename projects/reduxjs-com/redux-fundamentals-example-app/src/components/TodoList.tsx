@@ -1,8 +1,8 @@
-import { TodoState } from '../features/todos/todosSlice';
 import TodoListItem from './TodoListItem';
+import { useAppSelector } from '../redux/hooks';
 
 const TodoList = () => {
-  const todos: TodoState[] = [];
+  const todos = useAppSelector((state) => state.todos);
 
   const renderedListItems = todos.map((todo) => (
     <TodoListItem

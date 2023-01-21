@@ -1,5 +1,5 @@
-import { capitalize, colors } from '../features/Color';
-import { TodoState } from '../features/todos/todosSlice';
+import { capitalize, colors } from '../color';
+import { TodoState } from '../redux/features/todos/todosSlice';
 import { ReactComponent as TimesSolid } from './TimesSolid.svg';
 
 interface TodoListItemProps {

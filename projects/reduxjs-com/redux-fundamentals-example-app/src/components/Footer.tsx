@@ -1,9 +1,5 @@
-import {
-  Color,
-  capitalize,
-  colors as availableColors,
-} from '../features/Color';
-import { Status, StatusFilters } from '../features/filters/filtersSlice';
+import { Color, colors as availableColors, capitalize } from '../color';
+import { Status, StatusFilters } from '../redux/features/filters/filtersSlice';
 
 type OnColorChangeHandler = (
   color: Color,

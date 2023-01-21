@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { Color } from '../Color';
+import { Color } from '../../../color';
 
 export interface TodoState {
   id: number;
