@@ -1,5 +1,6 @@
 import { Color, colors as availableColors, capitalize } from '../color';
 import { Status, StatusFilters } from '../redux/features/filters/filtersSlice';
+import { useAppSelector } from '../redux/hooks';
 
 type OnColorChangeHandler = (
   color: Color,
@@ -93,9 +94,13 @@ const ColorFilters = ({ value: colors, onChange }: ColorFiltersProps) => {
 };
 
 const Footer = () => {
-  const colors: Color[] = [];
-  const status = StatusFilters.All;
-  const todosRemaining = 1;
+  const { status, colors } = useAppSelector((state) => state.filters);
+
+  const todosRemaining = useAppSelector((state) => {
+    const uncompletedTodos = state.todos.filter((todo) => !todo.completed);
+
+    return uncompletedTodos.length;
+  });
 
   const onColorChange: OnColorChangeHandler = (color, changeType) =>
     console.log('Color change: ', { color, changeType });
