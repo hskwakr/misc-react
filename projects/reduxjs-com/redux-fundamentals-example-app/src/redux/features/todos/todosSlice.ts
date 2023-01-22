@@ -1,4 +1,4 @@
-import { PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 import { Color } from '../../../color';
 
 export interface TodoState {
@@ -15,68 +15,80 @@ function nextTodoId(todos: TodoState[]) {
   return maxId + 1;
 }
 
-export default function todoReducer(
-  state = initialState,
-  action: PayloadAction<any>
-) {
-  switch (action.type) {
-    case 'todos/todoAdded': {
-      return [
-        ...state,
-        {
-          id: nextTodoId(state),
-          text: action.payload,
-          completed: false,
-        },
-      ];
-    }
+const added = createAction<string>('todos/todoAdded');
+const deleted = createAction<number>('todos/todoDeleted');
+const toggled = createAction<number>('todos/todoToggled');
+const colorSelected = createAction<{ id: number; color: Color }>(
+  'todos/colorSelected'
+);
+const allCompleted = createAction('todos/allCompleted');
+const completedCleared = createAction('todos/completedCleared');
 
-    case 'todos/todoToggled': {
-      return state.map((todo) => {
-        if (todo.id !== action.payload) {
-          return todo;
-        }
+const todoReducer = createReducer(initialState, (builder) => {
+  builder.addCase(added, (state, action) => {
+    return [
+      ...state,
+      {
+        id: nextTodoId(state),
+        text: action.payload,
+        completed: false,
+      },
+    ];
+  });
 
-        return {
-          ...todo,
-          completed: !todo.completed,
-        };
-      });
-    }
+  builder.addCase(deleted, (state, action) => {
+    return state.map((todo) => {
+      if (todo.id !== action.payload) {
+        return todo;
+      }
 
-    case 'todos/colorSelected': {
-      const { id, color } = action.payload;
+      return {
+        ...todo,
+        completed: !todo.completed,
+      };
+    });
+  });
 
-      return state.map((todo) => {
-        if (todo.id !== id) {
-          return todo;
-        }
+  builder.addCase(toggled, (state, action) => {
+    return state.map((todo) => {
+      if (todo.id !== action.payload) {
+        return todo;
+      }
 
-        return {
-          ...todo,
-          color: color,
-        };
-      });
-    }
+      return {
+        ...todo,
+        completed: !todo.completed,
+      };
+    });
+  });
 
-    case 'todos/todoDeleted': {
-      return state.filter((todo) => todo.id !== action.payload);
-    }
+  builder.addCase(colorSelected, (state, action) => {
+    const { id, color } = action.payload;
 
-    case 'todos/allCompleted': {
-      return state.map((todo) => {
-        return {
-          ...todo,
-          completed: true,
-        };
-      });
-    }
+    return state.map((todo) => {
+      if (todo.id !== id) {
+        return todo;
+      }
 
-    case 'todos/completedCleared': {
-      return state.filter((todo) => !todo.completed);
-    }
+      return {
+        ...todo,
+        color: color,
+      };
+    });
+  });
 
-    default:
-      return state;
-  }
-}
+  builder.addCase(allCompleted, (state) => {
+    return state.map((todo) => {
+      return {
+        ...todo,
+        completed: true,
+      };
+    });
+  });
+
+  builder.addCase(completedCleared, (state) => {
+    return state.filter((todo) => !todo.completed);
+  });
+});
+
+export default todoReducer;
