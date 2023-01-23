@@ -114,12 +114,24 @@ const Footer = () => {
     dispatch({ type: 'filters/statusFilterChanged', payload: status });
   };
 
+  const onAllCompleted = () => {
+    dispatch({ type: 'todos/allCompleted' });
+  };
+
+  const onCompletedCleared = () => {
+    dispatch({ type: 'todos/completedCleared' });
+  };
+
   return (
     <footer className="footer">
       <div className="actions">
         <h5>Actions</h5>
-        <button className="button">Mark All Completed</button>
-        <button className="button">Clear Completed</button>
+        <button className="button" onClick={onAllCompleted}>
+          Mark All Completed
+        </button>
+        <button className="button" onClick={onCompletedCleared}>
+          Clear Completed
+        </button>
       </div>
 
       <RemainingTodos count={todosRemaining} />
