@@ -1,7 +1,14 @@
-import { createStore } from 'redux';
-import rootReducer from './reducer';
+import todoReducer from './features/todos/todosSlice';
+import filterReducer from './features/filters/filtersSlice';
+import { configureStore } from '@reduxjs/toolkit';
 
-const store = createStore(rootReducer);
+const store = configureStore({
+  reducer: {
+    // Define a top-level state field named `todos, handled by `todosReducer`
+    todos: todoReducer,
+    filters: filterReducer,
+  },
+});
 
 export default store;
 
