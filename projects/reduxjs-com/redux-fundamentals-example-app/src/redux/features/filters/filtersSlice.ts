@@ -1,4 +1,4 @@
-import { PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 import { Color } from '../../../color';
 
 export const StatusFilters = {
@@ -19,47 +19,47 @@ const initialState: FilterState = {
   colors: [],
 };
 
-export default function filterReducer(
-  state = initialState,
-  action: PayloadAction<any>
-) {
-  switch (action.type) {
-    case 'filters/statusFilterChanged': {
-      return {
-        ...state,
-        status: action.payload,
-      };
-    }
+const statusChanged = createAction<Status>('filters/statusFilterChanged');
+const colorChanged = createAction<{
+  color: Color;
+  changeType: 'added' | 'removed';
+}>('filters/colorFilterChanged');
 
-    case 'filters/colorFilterChanged': {
-      let { color, changeType } = action.payload;
-      const { colors } = state;
+const filterReducer = createReducer(initialState, (builder) => {
+  builder.addCase(statusChanged, (state, action) => {
+    return {
+      ...state,
+      status: action.payload,
+    };
+  });
 
-      switch (changeType) {
-        case 'added': {
-          if (colors.includes(color)) {
-            return state;
-          }
+  builder.addCase(colorChanged, (state, action) => {
+    let { color, changeType } = action.payload;
+    const { colors } = state;
 
-          return {
-            ...state,
-            colors: state.colors.concat(color),
-          };
-        }
-
-        case 'removed': {
-          return {
-            ...state,
-            colors: state.colors.filter((c) => c !== color),
-          };
-        }
-
-        default:
+    switch (changeType) {
+      case 'added': {
+        if (colors.includes(color)) {
           return state;
-      }
-    }
+        }
 
-    default:
-      return state;
-  }
-}
+        return {
+          ...state,
+          colors: state.colors.concat(color),
+        };
+      }
+
+      case 'removed': {
+        return {
+          ...state,
+          colors: state.colors.filter((c) => c !== color),
+        };
+      }
+
+      default:
+        return state;
+    }
+  });
+});
+
+export default filterReducer;
