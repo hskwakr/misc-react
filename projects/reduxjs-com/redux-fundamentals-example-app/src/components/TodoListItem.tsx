@@ -1,20 +1,23 @@
+import { shallowEqual } from 'react-redux';
 import { capitalize, colors } from '../color';
-import { TodoState } from '../redux/features/todos/todosSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { ReactComponent as TimesSolid } from './TimesSolid.svg';
 
 interface TodoListItemProps {
-  todo: TodoState;
-  onColorChange: (v: string) => void;
-  onCompletedChange: (c: boolean) => void;
-  onDelete: () => void;
+  id: number;
 }
 
-const TodoListItem = ({
-  todo,
-  onColorChange,
-  onCompletedChange,
-  onDelete,
-}: TodoListItemProps) => {
+const TodoListItem = ({ id }: TodoListItemProps) => {
+  const dispatch = useAppDispatch();
+
+  const todo = useAppSelector(
+    (state) => state.todos.find((todo) => todo.id === id),
+    shallowEqual
+  );
+  if (!todo) {
+    return <></>;
+  }
+
   const { text, completed, color } = todo;
 
   const colorOptions = colors.map((c) => (
@@ -22,6 +25,21 @@ const TodoListItem = ({
       {capitalize(c)}
     </option>
   ));
+
+  const onCompletedChange = () => {
+    dispatch({ type: 'todos/todoToggled', payload: todo.id });
+  };
+
+  const onColorChange = (name: string) => {
+    dispatch({
+      type: 'todos/colorSelected',
+      payload: { id: todo.id, color: name },
+    });
+  };
+
+  const onDelete = () => {
+    dispatch({ type: 'todos/todoDeleted', payload: todo.id });
+  };
 
   return (
     <li>
@@ -31,7 +49,7 @@ const TodoListItem = ({
             className="toggle"
             type="checkbox"
             checked={completed}
-            onChange={(e) => onCompletedChange(e.target.checked)}
+            onChange={() => onCompletedChange()}
           />
           <div className="todo-text">{text}</div>
         </div>

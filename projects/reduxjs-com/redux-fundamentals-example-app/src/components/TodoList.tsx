@@ -2,16 +2,10 @@ import TodoListItem from './TodoListItem';
 import { useAppSelector } from '../redux/hooks';
 
 const TodoList = () => {
-  const todos = useAppSelector((state) => state.todos);
+  const todoIds = useAppSelector((state) => state.todos.map((todo) => todo.id));
 
-  const renderedListItems = todos.map((todo) => (
-    <TodoListItem
-      key={todo.id}
-      todo={todo}
-      onColorChange={(v: string) => {}}
-      onCompletedChange={(c: boolean) => {}}
-      onDelete={() => {}}
-    />
+  const renderedListItems = todoIds.map((id) => (
+    <TodoListItem key={id} id={id} />
   ));
 
   return <ul className="todo-list">{renderedListItems}</ul>;

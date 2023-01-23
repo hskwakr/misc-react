@@ -1,7 +1,7 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { Color } from '../../../color';
 
-export interface TodoState {
+interface TodoState {
   id: number;
   text: string;
   completed: boolean;
@@ -37,16 +37,7 @@ const todoReducer = createReducer(initialState, (builder) => {
   });
 
   builder.addCase(deleted, (state, action) => {
-    return state.map((todo) => {
-      if (todo.id !== action.payload) {
-        return todo;
-      }
-
-      return {
-        ...todo,
-        completed: !todo.completed,
-      };
-    });
+    return state.filter((todo) => todo.id !== action.payload);
   });
 
   builder.addCase(toggled, (state, action) => {
