@@ -1,5 +1,15 @@
 import { Color, colors as availableColors, capitalize } from '../color';
-import { Status, StatusFilters } from '../redux/features/filters/filtersSlice';
+import {
+  Status,
+  StatusFilters,
+  colorFilterChanged,
+  statusFilterChanged,
+} from '../redux/features/filters/filtersSlice';
+import {
+  selectTodos,
+  todoAllCompleted,
+  todoCompletedCleared,
+} from '../redux/features/todos/todosSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 type OnColorChangeHandler = (
@@ -31,12 +41,19 @@ interface StatusFilterProps {
 
 const StatusFilter = ({ value: status, onChange }: StatusFilterProps) => {
   const renderedFilters = Object.keys(StatusFilters).map((key) => {
-    const value = key as Status;
-    const handleClick = () => onChange(value);
+    const value = Object.values(StatusFilters).find((v) => {
+      const keyword = v[0].toUpperCase() + v.slice(1);
+      return keyword === key;
+    });
+
+    const handleClick = () => {
+      value && onChange(value);
+    };
+
     const className = value === status ? 'selected' : '';
 
     return (
-      <li key={value}>
+      <li key={key}>
         <button className={className} onClick={handleClick}>
           {key}
         </button>
@@ -98,28 +115,26 @@ const Footer = () => {
   const { status, colors } = useAppSelector((state) => state.filters);
 
   const todosRemaining = useAppSelector((state) => {
-    const uncompletedTodos = state.todos.filter((todo) => !todo.completed);
-
+    const uncompletedTodos = selectTodos(state).filter(
+      (todo) => !todo.completed
+    );
     return uncompletedTodos.length;
   });
 
   const onColorChange: OnColorChangeHandler = (color, changeType) => {
-    dispatch({
-      type: 'filters/colorFilterChanged',
-      payload: { color, changeType },
-    });
+    dispatch(colorFilterChanged(color, changeType));
   };
 
   const onStatusChange: OnStatusChangeHandler = (status) => {
-    dispatch({ type: 'filters/statusFilterChanged', payload: status });
+    dispatch(statusFilterChanged(status));
   };
 
   const onAllCompleted = () => {
-    dispatch({ type: 'todos/allCompleted' });
+    dispatch(todoAllCompleted());
   };
 
   const onCompletedCleared = () => {
-    dispatch({ type: 'todos/completedCleared' });
+    dispatch(todoCompletedCleared());
   };
 
   return (

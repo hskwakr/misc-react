@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../redux/hooks';
+import { todoAdded } from '../redux/features/todos/todosSlice';
 
 const Header = () => {
   const [text, setText] = useState('');
@@ -19,10 +20,7 @@ const Header = () => {
           // If the user pressed the Enter key:
           if (e.key === 'Enter' && trimmed) {
             // Dispatch the "todo added" action with this text
-            dispatch({
-              type: 'todos/todoAdded',
-              payload: trimmed,
-            });
+            dispatch(todoAdded(trimmed));
 
             // And clear out the text input
             setText('');

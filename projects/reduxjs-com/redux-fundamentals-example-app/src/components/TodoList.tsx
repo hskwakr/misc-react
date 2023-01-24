@@ -1,8 +1,9 @@
 import TodoListItem from './TodoListItem';
 import { useAppSelector } from '../redux/hooks';
+import { selectFilteredTodoIds } from '../redux/features/todos/todosSlice';
 
 const TodoList = () => {
-  const todoIds = useAppSelector((state) => state.todos.map((todo) => todo.id));
+  const todoIds = useAppSelector(selectFilteredTodoIds);
 
   const renderedListItems = todoIds.map((id) => (
     <TodoListItem key={id} id={id} />

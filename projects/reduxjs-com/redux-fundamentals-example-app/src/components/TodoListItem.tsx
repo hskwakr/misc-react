@@ -1,7 +1,13 @@
-import { shallowEqual } from 'react-redux';
 import { capitalize, colors } from '../color';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { ReactComponent as TimesSolid } from './TimesSolid.svg';
+import {
+  selectTodoById,
+  todoColorSelected,
+  todoDeleted,
+  todoToggled,
+} from '../redux/features/todos/todosSlice';
+import { shallowEqual } from 'react-redux';
 
 interface TodoListItemProps {
   id: number;
@@ -11,7 +17,7 @@ const TodoListItem = ({ id }: TodoListItemProps) => {
   const dispatch = useAppDispatch();
 
   const todo = useAppSelector(
-    (state) => state.todos.find((todo) => todo.id === id),
+    (state) => selectTodoById(state, id),
     shallowEqual
   );
   if (!todo) {
@@ -27,18 +33,15 @@ const TodoListItem = ({ id }: TodoListItemProps) => {
   ));
 
   const onCompletedChange = () => {
-    dispatch({ type: 'todos/todoToggled', payload: todo.id });
+    dispatch(todoToggled(todo.id));
   };
 
   const onColorChange = (name: string) => {
-    dispatch({
-      type: 'todos/colorSelected',
-      payload: { id: todo.id, color: name },
-    });
+    dispatch(todoColorSelected(todo.id, name));
   };
 
   const onDelete = () => {
-    dispatch({ type: 'todos/todoDeleted', payload: todo.id });
+    dispatch(todoDeleted(todo.id));
   };
 
   return (

@@ -1,4 +1,4 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Color } from '../../../color';
 
 export const StatusFilters = {
@@ -19,47 +19,53 @@ const initialState: FilterState = {
   colors: [],
 };
 
-const statusChanged = createAction<Status>('filters/statusFilterChanged');
-const colorChanged = createAction<{
-  color: Color;
-  changeType: 'added' | 'removed';
-}>('filters/colorFilterChanged');
+const filtersSlice = createSlice({
+  name: 'filters',
+  initialState,
+  reducers: {
+    statusFilterChanged: (state, action: PayloadAction<Status>) => {
+      state.status = action.payload;
+    },
 
-const filterReducer = createReducer(initialState, (builder) => {
-  builder.addCase(statusChanged, (state, action) => {
-    return {
-      ...state,
-      status: action.payload,
-    };
-  });
+    colorFilterChanged: {
+      reducer(
+        state,
+        action: PayloadAction<{
+          color: Color;
+          changeType: 'added' | 'removed';
+        }>
+      ) {
+        const { color, changeType } = action.payload;
+        const { colors } = state;
 
-  builder.addCase(colorChanged, (state, action) => {
-    let { color, changeType } = action.payload;
-    const { colors } = state;
+        switch (changeType) {
+          case 'added': {
+            if (colors.includes(color)) {
+              break;
+            }
 
-    switch (changeType) {
-      case 'added': {
-        if (colors.includes(color)) {
-          return state;
+            state.colors.push(color);
+            break;
+          }
+
+          case 'removed': {
+            state.colors = colors.filter((c) => c !== color);
+            break;
+          }
+
+          default:
+            break;
         }
-
+      },
+      prepare(color, changeType) {
         return {
-          ...state,
-          colors: state.colors.concat(color),
+          payload: { color, changeType },
         };
-      }
-
-      case 'removed': {
-        return {
-          ...state,
-          colors: state.colors.filter((c) => c !== color),
-        };
-      }
-
-      default:
-        return state;
-    }
-  });
+      },
+    },
+  },
 });
 
-export default filterReducer;
+export default filtersSlice.reducer;
+
+export const { statusFilterChanged, colorFilterChanged } = filtersSlice.actions;
