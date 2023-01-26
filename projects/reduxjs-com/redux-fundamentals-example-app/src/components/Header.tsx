@@ -3,8 +3,9 @@ import { useAppDispatch } from '../redux/hooks';
 import { todoAdded } from '../redux/features/todos/todosSlice';
 
 const Header = () => {
-  const [text, setText] = useState('');
   const dispatch = useAppDispatch();
+  const [text, setText] = useState('');
+  const [lastId, setLastId] = useState(0);
 
   return (
     <header className="header">
@@ -20,10 +21,17 @@ const Header = () => {
           // If the user pressed the Enter key:
           if (e.key === 'Enter' && trimmed) {
             // Dispatch the "todo added" action with this text
-            dispatch(todoAdded(trimmed));
+            dispatch(
+              todoAdded({
+                id: lastId,
+                text: trimmed,
+                completed: false,
+              })
+            );
 
             // And clear out the text input
             setText('');
+            setLastId((prev) => prev + 1);
           }
         }}
       />
