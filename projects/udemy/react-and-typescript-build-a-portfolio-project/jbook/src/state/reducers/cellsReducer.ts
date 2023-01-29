@@ -1,12 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createEntityAdapter } from '@reduxjs/toolkit/dist/entities/create_adapter';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { Cell } from '../cell';
-import {
-  InsertCellBefore,
-  MoveCell,
-  UpdateCell,
-} from '../action-payloads';
+import { InsertCellBefore, MoveCell, UpdateCell } from '../action-payloads';
 
 interface CellsState {
   loading: boolean;
@@ -32,10 +27,7 @@ const cellsSlice = createSlice({
       reducer: (state, action: PayloadAction<MoveCell>) => {
         console.log(state, action);
       },
-      prepare: (
-        id: MoveCell['id'],
-        direction: MoveCell['direction']
-      ) => ({
+      prepare: (id: MoveCell['id'], direction: MoveCell['direction']) => ({
         payload: { id, direction },
       }),
     },
@@ -44,10 +36,7 @@ const cellsSlice = createSlice({
       reducer: (state, action: PayloadAction<UpdateCell>) => {
         console.log(state, action);
       },
-      prepare: (
-        id: UpdateCell['id'],
-        content: UpdateCell['content']
-      ) => ({
+      prepare: (id: UpdateCell['id'], content: UpdateCell['content']) => ({
         payload: { id, content },
       }),
     },
