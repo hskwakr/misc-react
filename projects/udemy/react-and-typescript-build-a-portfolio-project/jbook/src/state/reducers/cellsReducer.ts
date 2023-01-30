@@ -1,7 +1,12 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { Cell } from '../cell';
-import { InsertCellBefore, MoveCell, UpdateCell } from '../action-payloads';
+import {
+  DeleteCell,
+  InsertCellBefore,
+  MoveCell,
+  UpdateCell,
+} from '../action-payloads';
 
 interface CellsState {
   loading: boolean;
@@ -21,15 +26,32 @@ const cellsSlice = createSlice({
   name: 'cells',
   initialState,
   reducers: {
-    deleteCell: cellsAdapter.removeOne,
+    deleteCell: {
+      reducer: (state, action: PayloadAction<DeleteCell>) => {
+        const { id } = action.payload;
+
+        // Remove from entities
+        cellsAdapter.removeOne(state, id);
+
+        // Remove from order
+        state.order = state.order.filter((idx) => idx !== id);
+      },
+      prepare: (id: DeleteCell['id']) => ({
+        payload: { id },
+      }),
+    },
 
     moveCell: {
       reducer: (state, action: PayloadAction<MoveCell>) => {
         const { id, direction } = action.payload;
-        const cell = state.entities[id];
-        if (cell == null) return;
+        const index = state.order.findIndex((o) => o === id);
 
-        console.log(cell, direction);
+        const targetIndex = direction === 'up' ? index - 1 : index + 1;
+        if (targetIndex < 0 || targetIndex > state.order.length - 1) return;
+
+        // Swap
+        state.order[index] = state.order[targetIndex];
+        state.order[targetIndex] = id;
       },
       prepare: (id: MoveCell['id'], direction: MoveCell['direction']) => ({
         payload: { id, direction },
