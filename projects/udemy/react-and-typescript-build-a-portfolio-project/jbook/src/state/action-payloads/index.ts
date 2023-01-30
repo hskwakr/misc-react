@@ -1,8 +1,10 @@
 import { CellTypes } from '../cell';
 
+type Direction = 'up' | 'down';
+
 export interface MoveCell {
   id: string;
-  direction: 'up' | 'down';
+  direction: Direction;
 }
 
 export interface UpdateCell {
