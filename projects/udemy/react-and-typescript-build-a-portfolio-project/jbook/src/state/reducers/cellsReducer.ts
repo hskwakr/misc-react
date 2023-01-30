@@ -25,7 +25,12 @@ const cellsSlice = createSlice({
 
     moveCell: {
       reducer: (state, action: PayloadAction<MoveCell>) => {
-        console.log(state, action);
+        const { id, direction } = action.payload;
+        const cell = state.entities[id];
+
+        if (cell == null) return;
+
+        console.log(direction);
       },
       prepare: (id: MoveCell['id'], direction: MoveCell['direction']) => ({
         payload: { id, direction },
@@ -34,7 +39,12 @@ const cellsSlice = createSlice({
 
     updateCell: {
       reducer: (state, action: PayloadAction<UpdateCell>) => {
-        console.log(state, action);
+        const { id, content } = action.payload;
+        const cell = state.entities[id];
+
+        if (cell == null) return;
+
+        cell.content = content;
       },
       prepare: (id: UpdateCell['id'], content: UpdateCell['content']) => ({
         payload: { id, content },
