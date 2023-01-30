@@ -17,6 +17,6 @@ export interface DeleteCell {
 }
 
 export interface InsertCellBefore {
-  id: string;
+  id: string | null;
   type: CellTypes;
 }

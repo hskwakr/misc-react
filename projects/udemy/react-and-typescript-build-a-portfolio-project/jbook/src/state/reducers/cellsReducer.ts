@@ -22,6 +22,8 @@ const initialState = cellsAdapter.getInitialState<CellsState>({
   order: [],
 });
 
+const randomId = () => Math.random().toString(36).substring(2, 5);
+
 const cellsSlice = createSlice({
   name: 'cells',
   initialState,
@@ -74,10 +76,22 @@ const cellsSlice = createSlice({
     insertCellBefore: {
       reducer: (state, action: PayloadAction<InsertCellBefore>) => {
         const { id, type } = action.payload;
-        const cell = state.entities[id];
-        if (cell == null) return;
+        const cell: Cell = {
+          content: '',
+          type,
+          id: randomId(),
+        };
 
-        console.log(cell, type);
+        // Add to entities
+        cellsAdapter.addOne(state, cell);
+
+        // Add to order
+        const index = state.order.findIndex((o) => o === id);
+        if (index === -1) {
+          state.order.push(cell.id);
+        } else {
+          state.order.splice(index, 0, cell.id);
+        }
       },
       prepare: (
         id: InsertCellBefore['id'],
