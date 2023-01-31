@@ -1,11 +1,14 @@
 import { selectCells, useAppSelector } from '../state';
+import CellListItem from './cell-list-item';
 
 const CellList = () => {
   const cells = useAppSelector(selectCells);
 
-  console.log(cells);
+  const renderedCells = cells.map((cell) =>
+    cell != null ? <CellListItem key={cell.id} cell={cell} /> : null
+  );
 
-  return <div>Cell List</div>;
+  return <div>{renderedCells}</div>;
 };
 
 export default CellList;
