@@ -1,12 +1,15 @@
-import { selectCells, useAppSelector } from '../state';
+import { useAppSelector } from '../state/hooks';
 import CellListItem from './cell-list-item';
 
 const CellList = () => {
-  const cells = useAppSelector(selectCells);
+  const cells = useAppSelector((state) => {
+    const { data, order } = state.cells;
+    return order.map((id) => data[id]);
+  });
 
-  const renderedCells = cells.map((cell) =>
-    cell != null ? <CellListItem key={cell.id} cell={cell} /> : null
-  );
+  const renderedCells = cells.map((cell) => (
+    <CellListItem key={cell.id} cell={cell} />
+  ));
 
   return <div>{renderedCells}</div>;
 };

@@ -1,4 +1,4 @@
-import { Cell } from '../state';
+import { Cell } from '../state/cell';
 
 interface CellListItemProps {
   cell: Cell;

@@ -1,8 +1,4 @@
-import {
-  createEntityAdapter,
-  createSelector,
-  createSlice,
-} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { Cell } from '../cell';
 import {
@@ -11,23 +7,33 @@ import {
   MoveCell,
   UpdateCell,
 } from '../action-payloads';
-import type { RootState } from '../store';
 
 interface CellsState {
   loading: boolean;
   error: string | null;
   order: string[];
+  data: Record<string, Cell>;
 }
 
-const cellsAdapter = createEntityAdapter<Cell>();
-
-const initialState = cellsAdapter.getInitialState<CellsState>({
+const initialState: CellsState = {
   loading: false,
   error: null,
   order: [],
-});
+  data: {},
+};
 
 const randomId = () => Math.random().toString(36).substring(2, 5);
+
+const filterData = (id: string, list: CellsState['data']) => {
+  const filtered: typeof list = {};
+  Object.keys(list).forEach((k) => {
+    if (k !== id) {
+      filtered[k] = list[k];
+    }
+  });
+
+  return filtered;
+};
 
 const cellsSlice = createSlice({
   name: 'cells',
@@ -37,8 +43,8 @@ const cellsSlice = createSlice({
       reducer: (state, action: PayloadAction<DeleteCell>) => {
         const { id } = action.payload;
 
-        // Remove from entities
-        cellsAdapter.removeOne(state, id);
+        // Remove from data
+        state.data = filterData(id, state.data);
 
         // Remove from order
         state.order = state.order.filter((idx) => idx !== id);
@@ -68,7 +74,7 @@ const cellsSlice = createSlice({
     updateCell: {
       reducer: (state, action: PayloadAction<UpdateCell>) => {
         const { id, content } = action.payload;
-        const cell = state.entities[id];
+        const cell = state.data[id];
         if (cell == null) return;
 
         cell.content = content;
@@ -87,8 +93,8 @@ const cellsSlice = createSlice({
           id: randomId(),
         };
 
-        // Add to entities
-        cellsAdapter.addOne(state, cell);
+        // Add to data
+        state.data[cell.id] = cell;
 
         // Add to order
         const index = state.order.findIndex((o) => o === id);
@@ -112,11 +118,3 @@ export default cellsSlice.reducer;
 
 export const { deleteCell, moveCell, updateCell, insertCellBefore } =
   cellsSlice.actions;
-
-export const selectCells = createSelector(
-  (state: RootState) => state.cells,
-  (cells) => {
-    const { entities, order } = cells;
-    return order.map((id) => entities[id]);
-  }
-);

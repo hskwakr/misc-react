@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux/es/exports';
 import App from './App';
-import { store } from './state';
+import { store } from './state/store';
 
 import 'bulmaswatch/superhero/bulmaswatch.min.css';
 
