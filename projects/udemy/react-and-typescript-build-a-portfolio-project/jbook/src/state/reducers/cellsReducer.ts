@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSelector,
+  createSlice,
+} from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { Cell } from '../cell';
 import {
@@ -7,6 +11,7 @@ import {
   MoveCell,
   UpdateCell,
 } from '../action-payloads';
+import type { RootState } from '../store';
 
 interface CellsState {
   loading: boolean;
@@ -107,3 +112,11 @@ export default cellsSlice.reducer;
 
 export const { deleteCell, moveCell, updateCell, insertCellBefore } =
   cellsSlice.actions;
+
+export const selectCells = createSelector(
+  (state: RootState) => state.cells,
+  (cells) => {
+    const { entities, order } = cells;
+    return order.map((id) => entities[id]);
+  }
+);
