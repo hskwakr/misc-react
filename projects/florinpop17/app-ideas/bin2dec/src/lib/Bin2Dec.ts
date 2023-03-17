@@ -10,23 +10,17 @@ const validateBinaryString = (binaryStr: string) => {
 };
 
 // Convert binary to decimal
-const ConvertBin2Dec = (binary: number) => {
+const ConvertBin2Dec = (binary: string) => {
   // Recursive function to convert binary to decimal
-  const reducer = (bin: number, digit: number, decSum: number): number => {
+  const reducer = (bin: string, digit: number, decSum: number): number => {
     // The position for a character in the binary string to slice
-    const position = bin.toString().length - digit;
+    const position = bin.length - digit;
+
+    // The target digit's binary (0 or 1)
+    const target = parseInt(bin[position], 2);
 
     // The power of binary digit
     const power = digit - 1;
-
-    // The target digit's binary (0 or 1)
-    const target = Number(bin.toString().slice(position, position + 1));
-    if (target === 0) {
-      if (power === 0) {
-        return decSum;
-      }
-      return reducer(bin, digit - 1, decSum);
-    }
 
     // Calc the decimal for the target
     const dec = target * 2 ** power;
@@ -40,7 +34,7 @@ const ConvertBin2Dec = (binary: number) => {
   };
 
   // Binary to decimal
-  const decimal = reducer(binary, binary.toString().length, 0);
+  const decimal = reducer(binary, binary.length, 0);
 
   return decimal;
 };
@@ -51,11 +45,8 @@ export const Bin2Dec = (binaryStr: string) => {
     return '';
   }
 
-  // String to Number for binary
-  const binary = Number(binaryStr);
-
   // Calc decimal
-  const decimal = ConvertBin2Dec(binary);
+  const decimal = ConvertBin2Dec(binaryStr);
 
   // Number to String for decimal
   const decimalStr = decimal.toString();
