@@ -33,7 +33,6 @@ const binaryToDecimal = (binary: string) => {
 
   // Binary to decimal
   const decimal = reducer(binary, binary.length, 0);
-
   return decimal;
 };
 
