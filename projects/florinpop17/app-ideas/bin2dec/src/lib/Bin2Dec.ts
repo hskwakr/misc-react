@@ -14,28 +14,21 @@ const validateBinaryString = (binaryStr: string) => {
 
 // Convert binary to decimal
 const binaryToDecimal = (binary: string) => {
-  // Recursive function to convert binary to decimal
-  const reducer = (bin: string, digit: number, decSum: number): number => {
-    // The position for a character in the binary string to slice
-    const position = bin.length - digit;
+  // The result of convertion
+  let decimal = 0;
 
-    // The target digit's binary (0 or 1)
-    const target = parseInt(bin[position], baseBinary);
+  // Loop for each digit from 2^0 to 2^7
+  binary
+    .split('')
+    .reverse()
+    .forEach((digit, power) => {
+      const target = parseInt(digit, baseBinary);
+      const dec = target * baseBinary ** power;
 
-    // Calc the decimal for the target
-    const power = digit - 1;
-    const dec = target * baseBinary ** power;
+      decimal += dec;
+      // console.log(binary, digit, power, target, dec, decimal);
+    });
 
-    // console.log(bin, digit, power, target, dec);
-
-    if (power === 0) {
-      return decSum + dec;
-    }
-    return reducer(bin, digit - 1, decSum + dec);
-  };
-
-  // Binary to decimal
-  const decimal = reducer(binary, binary.length, 0);
   return decimal;
 };
 
