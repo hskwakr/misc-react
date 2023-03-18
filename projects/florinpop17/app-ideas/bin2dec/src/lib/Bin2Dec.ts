@@ -2,6 +2,21 @@
 // 1. Arrays may not be used to contain the binary digits entered by the user
 // 2. Determining the decimal equivalent of a particular binary digit in the sequence must be calculated using a single mathematical function, for example the natural logarithm. It's up to you to figure out which function to use.
 
+export const Bin2Dec = (binaryStr: string) => {
+  // Validate binary string
+  if (!validateBinaryString(binaryStr)) {
+    return '';
+  }
+
+  // Calc decimal
+  const decimal = binaryToDecimal(binaryStr);
+
+  // Number to String for decimal
+  const decimalStr = decimal.toString();
+
+  return decimalStr;
+};
+
 // The base of the radix for binary
 const baseBinary = 2;
 
@@ -30,19 +45,4 @@ const binaryToDecimal = (binary: string) => {
     });
 
   return decimal;
-};
-
-export const Bin2Dec = (binaryStr: string) => {
-  // Validate binary string
-  if (!validateBinaryString(binaryStr)) {
-    return '';
-  }
-
-  // Calc decimal
-  const decimal = binaryToDecimal(binaryStr);
-
-  // Number to String for decimal
-  const decimalStr = decimal.toString();
-
-  return decimalStr;
 };
