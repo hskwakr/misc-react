@@ -1,15 +1,22 @@
 import './App.css';
 import Binary from './components/Binariy';
 import Decimal from './components/Decimal';
+import Navbar from './components/Navbar';
 
 const App = () => (
   <div className="h-screen">
-    <div className="flex h-16 bg-gray-500">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </div>
-    <div className="h-fit bg-slate-400 pt-16">
-      <Binary />
-      <Decimal />
+    <Navbar />
+
+    <div className="h-max pt-12">
+      <div className="my-auto h-[450px]">
+        <div className="h-2/3">
+          <Binary />
+        </div>
+
+        <div className="h-1/3">
+          <Decimal />
+        </div>
+      </div>
     </div>
   </div>
 );
