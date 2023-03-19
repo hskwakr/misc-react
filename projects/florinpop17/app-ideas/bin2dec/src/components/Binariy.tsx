@@ -3,7 +3,7 @@ import { useState } from 'react';
 type Binary = 0 | 1;
 const init8BitBinary: Binary[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
-const Binaries = () => {
+const Binary = () => {
   const items = init8BitBinary.map(bin => (
     <div className="mx-auto my-2 bg-amber-300">
       <BinaryCounter value={bin} />
@@ -13,7 +13,7 @@ const Binaries = () => {
   return <div className="mx-auto grid max-w-xs grid-cols-4">{items}</div>;
 };
 
-export default Binaries;
+export default Binary;
 
 const BinaryCounter = ({ value }: { value: Binary }) => {
   const [binary, setBinary] = useState(value);

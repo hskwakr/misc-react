@@ -1,10 +1,10 @@
 import './App.css';
-import Binaries from './components/Binaries';
+import Binary from './components/Binariy';
 
 const App = () => (
   <>
     <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    <Binaries />
+    <Binary />
   </>
 );
 
