@@ -4,9 +4,13 @@ type Binary = 0 | 1;
 const init8BitBinary: Binary[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
 const Binaries = () => {
-  const items = init8BitBinary.map(bin => <BinaryCounter value={bin} />);
+  const items = init8BitBinary.map(bin => (
+    <div className="mx-auto my-2 bg-amber-300">
+      <BinaryCounter value={bin} />
+    </div>
+  ));
 
-  return <div>{items}</div>;
+  return <div className="mx-auto grid max-w-xs grid-cols-4">{items}</div>;
 };
 
 export default Binaries;
@@ -19,8 +23,12 @@ const BinaryCounter = ({ value }: { value: Binary }) => {
   };
 
   return (
-    <div onClick={updateBinary} aria-hidden="true">
-      <div>{binary}</div>
+    <div
+      onClick={updateBinary}
+      aria-hidden="true"
+      className="rounded-lg bg-amber-100 px-2"
+    >
+      <div className="font-mono text-8xl">{binary}</div>
     </div>
   );
 };
