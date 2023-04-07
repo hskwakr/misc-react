@@ -2,18 +2,18 @@ import { Bin } from '../App';
 
 const Binary = ({
   value,
-  handleBinaries,
+  update,
 }: {
   value: Bin[];
-  handleBinaries: (idx: number) => void;
+  update: (index: number) => void;
 }) => {
-  const items = value.map((bin, i) => {
+  const items = value.map((bin, idx) => {
     const updateBinary = () => {
-      handleBinaries(i);
+      update(idx);
     };
 
     return (
-      <div key={i} className="mx-auto my-2 bg-amber-300">
+      <div key={idx} className="mx-auto my-2 bg-amber-300">
         <div
           onClick={updateBinary}
           aria-hidden="true"

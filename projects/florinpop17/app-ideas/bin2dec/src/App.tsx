@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useState } from 'react';
 import Binary from './components/Binariy';
 import Decimal from './components/Decimal';
 import Navbar from './components/Navbar';
@@ -31,7 +31,7 @@ const App = () => {
       <div className="h-max pt-12">
         <div className="my-auto h-[450px]">
           <div className="h-2/3">
-            <Binary handleBinaries={handleBinaries} value={binaries} />
+            <Binary value={binaries} update={handleBinaries} />
           </div>
 
           <div className="h-1/3">
