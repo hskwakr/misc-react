@@ -1,27 +1,19 @@
-import { useState } from 'react';
+import { Bin } from '../App';
 
-type Binary = 0 | 1;
-const init8BitBinary: Binary[] = [0, 0, 0, 0, 0, 0, 0, 0];
-
-const Binary = ({ setBinStr }: { setBinStr: (bin: string) => void }) => {
-  const [binaries, setBinaries] = useState(init8BitBinary);
-
-  const items = binaries.map((bin, idx) => {
+const Binary = ({
+  binaries,
+  handleBinaries,
+}: {
+  binaries: Bin[];
+  handleBinaries: (idx: number) => void;
+}) => {
+  const items = binaries.map((bin, i) => {
     const updateBinary = () => {
-      setBinaries(prev => {
-        const newState = prev.map((v, i) => {
-          return i === idx ? (v ? 0 : 1) : v;
-        });
-
-        return newState;
-      });
-
-      const binStr = binaries.map(String).join('');
-      setBinStr(binStr);
+      handleBinaries(i);
     };
 
     return (
-      <div key={idx} className="mx-auto my-2 bg-amber-300">
+      <div key={i} className="mx-auto my-2 bg-amber-300">
         <div
           onClick={updateBinary}
           aria-hidden="true"
