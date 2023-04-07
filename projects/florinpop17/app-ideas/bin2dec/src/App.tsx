@@ -31,11 +31,11 @@ const App = () => {
       <div className="h-max pt-12">
         <div className="my-auto h-[450px]">
           <div className="h-2/3">
-            <Binary handleBinaries={handleBinaries} binaries={binaries} />
+            <Binary handleBinaries={handleBinaries} value={binaries} />
           </div>
 
           <div className="h-1/3">
-            <Decimal decimal={decimal} />
+            <Decimal value={decimal} />
           </div>
         </div>
       </div>

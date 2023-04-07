@@ -1,13 +1,13 @@
 import { Bin } from '../App';
 
 const Binary = ({
-  binaries,
+  value,
   handleBinaries,
 }: {
-  binaries: Bin[];
+  value: Bin[];
   handleBinaries: (idx: number) => void;
 }) => {
-  const items = binaries.map((bin, i) => {
+  const items = value.map((bin, i) => {
     const updateBinary = () => {
       handleBinaries(i);
     };
