@@ -9,7 +9,6 @@ const App = () => {
   const [binStr, setBinStr] = useState('00000000');
 
   const decimal = Number(Bin2Dec(binStr));
-  console.log('new decimal:', decimal);
 
   return (
     <div className="h-screen">
