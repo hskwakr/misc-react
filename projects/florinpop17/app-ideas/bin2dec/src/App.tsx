@@ -3,9 +3,10 @@ import Binary from './components/Binariy';
 import Decimal from './components/Decimal';
 import Navbar from './components/Navbar';
 import { Bin2Dec } from './lib/Bin2Dec';
+import { Bin } from './lib/Bin';
+
 import './App.css';
 
-export type Bin = 0 | 1;
 const init8BitBinary: Bin[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
 const App = () => {

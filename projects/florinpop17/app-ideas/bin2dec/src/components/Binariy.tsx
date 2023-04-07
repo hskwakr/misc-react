@@ -1,4 +1,4 @@
-import { Bin } from '../App';
+import { Bin } from '../lib/Bin';
 
 const Binary = ({
   value,
